@@ -8,24 +8,34 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import {Link} from "react-router-dom";
-import axios from "axios";
+import {Link, useNavigate} from "react-router-dom";
+import api from "../../core/api";
+import {useSnackbar} from "notistack";
 
 export default function Register() {
+
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
-        axios.post("http://localhost:3333/auth/register",{
+        api.post("/auth/register",{
             name: data.get('name'),
             email: data.get('email'),
             password: data.get('password'),
-            password_confirmation: data.getAll('password_confirmation'),
+            password_confirmation: data.get('password_confirmation'),
         }).then((response) => {
-            console.log(response);
-        }).catch((error) => {
-            console.log(error);
+            enqueueSnackbar(response.data?.message);
+            localStorage.setItem("auth_token", response.data.token.token);
+            navigate("/user");
+        }).catch((errors) => {
+            if (errors.response.data.message) {
+                enqueueSnackbar(errors.response.data.message);
+            } else {
+                errors.response.data.errors.map((error: { message: any; }) => enqueueSnackbar(error.message));
+            }
         })
     };
 

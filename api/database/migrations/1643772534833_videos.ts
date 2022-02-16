@@ -7,7 +7,6 @@ export default class Videos extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id', 11).primary()
       table.integer('user_id').index()
-      table.integer('channel_id').index()
       table.string('title')
       table.json('thumbnails')
       table.text('description').nullable()

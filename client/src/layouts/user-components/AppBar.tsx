@@ -68,14 +68,12 @@ export const AppBarComponent: React.FC<any> = ({ open, toggleDrawer }) => {
                 </Typography>
                 <Button
                     variant="contained"
-                    color="success"
-                    onClick={() => navigate("/auth/login")}
-                >Login</Button>
-                <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() => navigate("/auth/register")}
-                >Signup</Button>
+                    color="error"
+                    onClick={() => {
+                        localStorage.removeItem("auth_token");
+                        navigate("/auth/login");
+                    }}
+                >Logout</Button>
             </Toolbar>
         </AppBar>
     )

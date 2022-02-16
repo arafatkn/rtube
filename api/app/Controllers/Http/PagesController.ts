@@ -6,7 +6,7 @@ export default class PagesController {
 
   public async index() {
 
-    const videos = await Video.all();
+    const videos = await Video.query().preload('user').paginate();
 
     return { 'status': 'success', 'videos': videos }
   }

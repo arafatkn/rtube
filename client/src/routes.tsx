@@ -1,6 +1,7 @@
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
-import Home from "./pages/Home";
+import Home from "./pages/app/Home";
+import AuthLayout from "./layouts/auth.layout";
 
 export const appRoutes = [
     {
@@ -20,12 +21,18 @@ export const appRoutes = [
 
 export const authRoutes = [
     {
-        index: true,
-        path: "login",
-        element: <Login />
-    },
-    {
-        path: "register",
-        element: <Register />
+        path: "auth",
+        element: <AuthLayout />,
+        children: [
+            {
+                index: true,
+                path: "login",
+                element: <Login />
+            },
+            {
+                path: "register",
+                element: <Register />
+            },
+        ],
     },
 ];

@@ -8,18 +8,34 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useSnackbar} from "notistack";
+import api from "../../core/api";
 
 export default function Login() {
+
+    const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
+
+        api.post("/auth/login",{
             email: data.get('email'),
             password: data.get('password'),
-        });
+        }).then((response) => {
+            enqueueSnackbar("Logged in successfully.");
+            localStorage.setItem("auth_token", response.data.token.token);
+            navigate("/user");
+        }).catch((errors) => {
+            if (errors.response?.data?.message) {
+                enqueueSnackbar(errors.response.data.message);
+            } else if(errors.response?.data?.errors) {
+                errors.response.data.errors.map((error: { message: any; }) => enqueueSnackbar(error.message));
+            }
+        })
+
     };
 
     return (

@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import {BaseModel, column, HasMany, hasMany} from '@ioc:Adonis/Lucid/Orm'
 import Video from "App/Models/Video";
-import Channel from "App/Models/Channel";
+import Like from "App/Models/Like";
+import Comment from "App/Models/Comment";
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -25,6 +26,9 @@ export default class User extends BaseModel {
   @hasMany(() => Video)
   public videos: HasMany<typeof Video>
 
-  @hasMany(() => Channel)
-  public channels: HasMany<typeof Channel>
+  @hasMany(() => Like)
+  public likes: HasMany<typeof Like>
+
+  @hasMany(() => Comment)
+  public comments: HasMany<typeof Comment>
 }

@@ -20,7 +20,8 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'PagesController.index').as('index')
+Route.get('/', 'PagesController.index').as('index');
+Route.get('/videos/:id', 'VideosController.show').as('videos.show');
 
 Route.group(() => {
   Route.post('login', 'AuthController.loginPost').as('login')
@@ -28,5 +29,7 @@ Route.group(() => {
 }).prefix('auth').as('auth')
 
 Route.group(() => {
-  Route.resource('videos', 'User/VideosController')
-}).prefix('user').as('user')
+  Route.resource('videos', 'User/VideosController').apiOnly()
+  Route.resource('videos/:video_id/likes', 'User/LikesController').apiOnly()
+  Route.resource('comments', 'User/CommentsController').apiOnly()
+}).prefix('user').as('user').middleware('auth')

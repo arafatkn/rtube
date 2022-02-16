@@ -5,6 +5,15 @@ export default class Comment extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public user_id: number
+
+  @column()
+  public video_id: string
+
+  @column()
+  public message: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

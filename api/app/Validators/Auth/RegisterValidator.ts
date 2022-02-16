@@ -19,17 +19,6 @@ export default class RegisterValidator {
     ]),
   })
 
-  /**
-   * Custom messages for validation failures. You can make use of dot notation `(.)`
-   * for targeting nested fields and array expressions `(*)` for targeting all
-   * children of an array. For example:
-   *
-   * {
-   *   'profile.username.required': 'Username is required',
-   *   'scores.*.number': 'Define scores as valid numbers'
-   * }
-   *
-   */
   public messages = {
     'email.required': 'Please provide email to login.',
     'email.email': 'Please provide valid email to login.',
